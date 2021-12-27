@@ -422,17 +422,6 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
   end
 
   
-  control "SV-230240" do
-    impact 0.0
-    desc 'caveat', 'This is Not Applicable since the related security control (SC-3) is not applied to this system categorization in CMS ARS 3.1'
-  end
-
-  control "SV-230241" do
-    impact 0.0
-    desc 'caveat', 'This is Not Applicable since the related security control (SC-3) is not applied to this system categorization in CMS ARS 3.1'
-  end
-
-
   control 'SV-230243' do
     desc  "Preventing unauthorized information transfers mitigates the risk of
   information, including encrypted representations of information, produced by
@@ -814,29 +803,9 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
   end
 
 
-  control "SV-230277" do
-    impact 0.0
-    desc 'caveat', 'This is Not Applicable since the related security control (SC-3) is not applied to this system categorization in CMS ARS 3.1'
-  end
-
-  control "SV-230278" do
-    impact 0.0
-    desc 'caveat', 'This is Not Applicable since the related security control (SC-3) is not applied to this system categorization in CMS ARS 3.1'
-  end
-
-  control "SV-230279" do
-    impact 0.0
-    desc 'caveat', 'This is Not Applicable since the related security control (SC-3) is not applied to this system categorization in CMS ARS 3.1'
-  end
-
   control "SV-230281" do
     impact 0.0
     desc 'caveat', 'This is Not Applicable since the related security control (SI-2 (6)) is not included in CMS ARS 3.1'
-  end
-
-  control "SV-230282" do
-    impact 0.0
-    desc 'caveat', 'This is Not Applicable since the related security control (SI-6 a) is not applied to this system categorization in CMS ARS 3.1'
   end
 
   control "SV-230296" do
