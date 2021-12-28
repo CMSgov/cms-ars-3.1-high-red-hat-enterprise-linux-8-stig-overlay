@@ -1051,7 +1051,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
       $ sudo grep pam_faillock.so /etc/pam.d/password-auth
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
@@ -1062,7 +1062,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
       $ sudo grep pam_faillock.so /etc/pam.d/system-auth
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
@@ -1078,7 +1078,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
   \"/etc/pam.d/password-auth\" files to match the following lines:
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
@@ -1137,7 +1137,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
       $ sudo grep pam_faillock.so /etc/pam.d/password-auth
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
@@ -1148,7 +1148,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
       $ sudo grep pam_faillock.so /etc/pam.d/system-auth
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
@@ -1163,7 +1163,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
   \"/etc/pam.d/password-auth\" files to match the following lines:
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
@@ -1221,7 +1221,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
       $ sudo grep pam_faillock.so /etc/pam.d/password-auth
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
@@ -1231,7 +1231,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
       $ sudo grep pam_faillock.so /etc/pam.d/system-auth
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
@@ -1246,7 +1246,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
   \"/etc/pam.d/password-auth\" files to match the following lines:
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
@@ -1280,7 +1280,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
       $ sudo grep pam_faillock.so /etc/pam.d/password-auth
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
@@ -1290,7 +1290,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
       $ sudo grep pam_faillock.so /etc/pam.d/system-auth
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
@@ -1305,7 +1305,7 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
   \"/etc/pam.d/password-auth\" files to match the following lines:
 
       auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
-  deny=5 even_deny_root fail_interval=7200 unlock_time=0
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
       auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
       account required pam_faillock.so
 
