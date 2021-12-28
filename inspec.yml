@@ -52,25 +52,25 @@ inputs:
 - name: difok
   description: SV-230363 - DIFOK (minimum number of characters that must be different from previous password).
   type: numeric
-  value: 6
+  value: 12
   profile: redhat-enterprise-linux-8-stig-baseline
 
 - name: min_reuse_generations
   description: SV-230368 - Number of reuse generations.
   type: numeric
-  value: 6
+  value: 12
   profile: redhat-enterprise-linux-8-stig-baseline
 
 - name: days_of_inactivity
   description: SV-230373 - Number of days of inactivity.
   type: numeric
-  value: 60
+  value: 30
   profile: redhat-enterprise-linux-8-stig-baseline
 
 - name: unsuccessful_attempts
   description: SV-230332, SV-230333 - The number of unsuccessful login attempts within a certain interval before lockout.
   type: numeric
-  value: 5
+  value: 3
   profile: redhat-enterprise-linux-8-stig-baseline
 
 - name: fail_interval
@@ -78,13 +78,7 @@ inputs:
   type: numeric
   value: 7200
   profile: redhat-enterprise-linux-8-stig-baseline
-  
-- name: lockout_time 
-  description: SV-230336, SV-230337 - The time in seconds for how long an account will be locked out.
-  type: numeric
-  value: 3600
-  profile: redhat-enterprise-linux-8-stig-baseline
-  
+    
 - name: system_inactivity_timeout
   description: SV-230353 - System inactivity timeout in seconds
   type: numeric
