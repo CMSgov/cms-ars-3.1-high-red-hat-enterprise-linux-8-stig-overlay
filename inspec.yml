@@ -67,12 +67,6 @@ inputs:
   value: 30
   profile: redhat-enterprise-linux-8-stig-baseline
 
-- name: unsuccessful_attempts
-  description: SV-230332, SV-230333 - The number of unsuccessful login attempts within a certain interval before lockout.
-  type: numeric
-  value: 3
-  profile: redhat-enterprise-linux-8-stig-baseline
-
 - name: fail_interval
   description: SV-230334, SV-230335 - The fail interval in seconds upon which an account will be locked if a certain number of unsuccessful login attempts is reached.
   type: numeric
