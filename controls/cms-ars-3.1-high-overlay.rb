@@ -913,23 +913,6 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
 
 
   control 'SV-230332' do
-    title "RHEL 8 must automatically lock an account when three unsuccessful
-  logon attempts occur."
-    desc  "By limiting the number of failed logon attempts, the risk of
-  unauthorized system access via user password guessing, otherwise known as
-  brute-force attacks, is reduced. Limits are imposed by locking the account.
-
-      RHEL 8 can utilize the \"pam_faillock.so\" for this purpose. Note that
-  manual changes to the listed files may be overwritten by the \"authselect\"
-  program.
-
-      From \"Pam_Faillock\" man pages: Note that the default directory that
-  \"pam_faillock\" uses is usually cleared on system boot so the access will be
-  reenabled after system reboot. If that is undesirable a different tally
-  directory must be set with the \"dir\" option.
-
-
-    "
     desc  'check', "
       Check that the system locks an account after three unsuccessful logon
   attempts with the following commands:
@@ -988,50 +971,6 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
       $ sudo systemctl restart sssd.service
     "
   end
-
-
-  control 'SV-230333' do
-    title "RHEL 8 must automatically lock an account when three unsuccessful
-  logon attempts occur."
-
-    desc  'check', "
-      Note: This check applies to RHEL versions 8.2 or newer, if the system is
-  RHEL version 8.0 or 8.1, this check is not applicable.
-
-      Verify the \"/etc/security/faillock.conf\" file is configured to lock an
-  account after three unsuccessful logon attempts:
-
-      $ sudo grep 'deny =' /etc/security/faillock.conf
-
-      deny = 3
-
-      If the \"deny\" option is not set to \"3\" or less (but not \"0\"), is
-  missing or commented out, this is a finding.
-    "
-    desc  'fix', "
-      Configure the operating system to lock an account when three unsuccessful
-  logon attempts occur.
-
-      Add/Modify the \"/etc/security/faillock.conf\" file to match the following
-  line:
-
-      deny = 3
-    "
-
-
-    if os.release.to_f <= 8.2
-      impact 0.0
-      describe "The release is #{os.release}" do
-        skip 'The release is lower than 8.2; this control is Not Applicable.'
-      end
-    else
-      describe parse_config_file('/etc/security/faillock.conf') do
-        its('deny') { should cmp <= 3 }
-        its('deny') { should_not cmp 0 }
-      end
-    end
-  end
-
 
   control 'SV-230334' do
     title "RHEL 8 must automatically lock an account when three unsuccessful
@@ -1178,21 +1117,6 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
   control 'SV-230337' do
     title "RHEL 8 must automatically lock an account until the locked account is released by an administrator when three unsuccessful logon attempts occur
   during a 120-minute time period."
-    desc  'check', "
-      Note: This check applies to RHEL versions 8.2 or newer, if the system is
-  RHEL version 8.0 or 8.1, this check is not applicable.
-
-      Verify the \"/etc/security/faillock.conf\" file is configured to lock an
-  account until released by an administrator after three unsuccessful logon
-  attempts:
-
-      $ sudo grep 'unlock_time =' /etc/security/faillock.conf
-
-      unlock_time = 0
-
-      If the \"unlock_time\" option is not set to \"0\", is missing or commented
-  out, this is a finding.
-    "
     desc 'fix', "
       Configure the operating system to lock an account until released by an
   administrator when three unsuccessful logon attempts occur in 120 minutes.
@@ -1204,9 +1128,65 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
     "
   end
 
+  control 'SV-230338' do
+    desc  'check', "
+      Check that the faillock directory contents persists after a reboot with the
+  following commands:
+
+      Note: If the System Administrator demonstrates the use of an approved
+  centralized account management method that locks an account after three
+  unsuccessful logon attempts within a period of 120 minutes, this requirement is
+  not applicable.
+
+      Note: This check applies to RHEL versions 8.0 and 8.1, if the system is
+  RHEL version 8.2 or newer, this check is not applicable.
+
+      $ sudo grep pam_faillock.so /etc/pam.d/password-auth
+
+      auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
+      auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
+      account required pam_faillock.so
+
+      If the \"dir\" option is not set to a non-default documented tally log
+  directory on the \"preauth\" and \"authfail\" lines with the
+  \"pam_faillock.so\" module, or is missing from these lines, this is a finding.
+
+      $ sudo grep pam_faillock.so /etc/pam.d/system-auth
+
+      auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
+      auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
+      account required pam_faillock.so
+
+      If the \"dir\" option is not set to a non-default documented tally log
+  directory on the \"preauth\" and \"authfail\" lines with the
+  \"pam_faillock.so\" module, or is missing from these lines, this is a finding.
+    "
+    desc 'fix', "
+      Configure the operating system maintain the contents of the faillock
+  directory after a reboot.
+
+      Add/Modify the appropriate sections of the \"/etc/pam.d/system-auth\" and
+  \"/etc/pam.d/password-auth\" files to match the following lines:
+
+      Note: Using the default faillock directory of /var/run/faillock will result
+  in the contents being cleared in the event of a reboot.
+
+      auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
+      auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
+      account required pam_faillock.so
+
+      The \"sssd\" service must be restarted for the changes to take effect. To
+  restart the \"sssd\" service, run the following command:
+
+      $ sudo systemctl restart sssd.service
+    "
+  end
+
 
   control 'SV-230340' do
-    title "RHEL 8 must prevent system messages from being presented when three unsuccessful logon attempts occur."
     desc  'check', "
       Check that the system prevents informative messages from being presented to
   the user pertaining to logon information with the following commands:
@@ -1257,11 +1237,56 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
     "
   end
 
+  control 'SV-230342' do
+    desc  'check', "
+      Check that the system logs user name information when unsuccessful logon
+  attempts occur with the following commands:
 
-  control 'SV-230341' do
-    title "RHEL 8 must prevent system messages from being presented when three unsuccessful logon attempts occur."
+      If the system is RHEL version 8.2 or newer, this check is not applicable.
+
+      Note: If the System Administrator demonstrates the use of an approved
+  centralized account management method that locks an account after three
+  unsuccessful logon attempts within a period of 120 minutes, this requirement is
+  not applicable.
+
+      $ sudo grep pam_faillock.so /etc/pam.d/password-auth
+
+      auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
+      auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
+      account required pam_faillock.so
+
+      If the \"audit\" option is missing from the \"preauth\" line with the
+  \"pam_faillock.so\" module, this is a finding.
+
+      $ sudo grep pam_faillock.so /etc/pam.d/system-auth
+
+      auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
+      auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
+      account required pam_faillock.so
+
+      If the \"audit\" option is missing from the \"preauth\" line with the
+  \"pam_faillock.so\" module, this is a finding.
+    "
+    desc 'fix', "
+      Configure the operating system to log user name information when
+  unsuccessful logon attempts occur.
+
+      Add/Modify the appropriate sections of the \"/etc/pam.d/system-auth\" and
+  \"/etc/pam.d/password-auth\" files to match the following lines:
+
+      auth required pam_faillock.so preauth dir=/var/log/faillock silent audit
+  deny=3 even_deny_root fail_interval=7200 unlock_time=0
+      auth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0
+      account required pam_faillock.so
+
+      The \"sssd\" service must be restarted for the changes to take effect. To
+  restart the \"sssd\" service, run the following command:
+
+      $ sudo systemctl restart sssd.service
+    "
   end
-
 
   control 'SV-230344' do
     title "RHEL 8 must include root when automatically locking an account until the locked account is released by an administrator when three unsuccessful
@@ -1355,17 +1380,6 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
 
       set -g lock-after-time 1800
     "
-
-    if virtualization.system.eql?('docker')
-      impact 0.0
-      describe "Control not applicable within a container" do
-        skip "Control not applicable within a container"
-      end
-    else
-      describe command("grep -i lock-after-time /etc/tmux.conf | cut -d ' ' -f4") do
-        its('stdout.strip') { should cmp <= 1800 }
-      end
-    end
   end
 
 
@@ -1409,10 +1423,6 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
 
       difok = 12
     "
-
-    describe parse_config_file('/etc/security/pwquality.conf') do
-      its('difok') { should cmp >= 12 }
-    end
   end
 
 
@@ -1448,7 +1458,6 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
 
 
   control 'SV-230369' do
-    title 'RHEL 8 passwords must have a minimum of 15 characters.'
     desc  "The shorter the password, the lower the number of possible
   combinations that need to be tested before the password is compromised.
 
@@ -1474,7 +1483,6 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
 
 
   control 'SV-230370' do
-    title 'RHEL 8 passwords for new users must have a minimum of 15 characters.'
     desc  "The shorter the password, the lower the number of possible
   combinations that need to be tested before the password is compromised.
 
@@ -1491,8 +1499,6 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
 
 
   control 'SV-230372' do
-    title "RHEL 8 must implement smart card logon for multifactor authentication
-  for access to interactive accounts."
     desc  "Using an authentication device, such as a PIV or
   token that is separate from the information system, ensures that even if the
   information system is compromised, that compromise will not affect credentials
@@ -1550,11 +1556,6 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
   \"-1\" will disable this feature, and \"0\" will disable the account
   immediately after the password expires.
     "
-    describe parse_config_file('/etc/default/useradd') do
-      its('INACTIVE') { should cmp >= 0 }
-      its('INACTIVE') { should cmp <= 30 }
-      its('INACTIVE') { should_not cmp == -1 }
-    end
   end
 
 
@@ -1754,7 +1755,6 @@ include_controls "redhat-enterprise-linux-8-stig-baseline" do
 
 
     "
-    desc  'rationale', ''
   end
 
 
